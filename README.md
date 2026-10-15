@@ -106,7 +106,7 @@ Build
 
 ### Pipeline
 
-![Pipeline](docs/evidencias/pipeline.png)
+![Pipeline](docs/evidencias/Pipeline.png)
 
 ### Etapa do SonarQube no pipeline
 
