@@ -59,12 +59,26 @@ O arquivo `sonar-project.properties` define o projeto e informa ao SonarQube ond
 sonar.javascript.lcov.reportPaths=coverage/lcov.info
 ```
 
-Antes de executar o workflow, crie no repositório GitHub os seguintes **Actions secrets**:
+Para que esse arquivo seja gerado, o script `coverage` do `package.json` utiliza o reporter `lcov` do Vitest:
 
-- `SONAR_HOST_URL`: URL do servidor SonarQube, por exemplo `https://sonarqube.exemplo.edu.br`.
-- `SONAR_TOKEN`: token de análise gerado no SonarQube.
+```json
+"coverage": "vitest run --coverage --coverage.reporter=text --coverage.reporter=lcov"
+```
 
-Ajuste também `sonar.projectKey` em `sonar-project.properties` para a chave criada no seu servidor SonarQube.
+A análise é feita no **SonarQube Cloud**. Antes de executar o workflow, crie no repositório GitHub o seguinte **Actions secret**:
+
+- `SONAR_TOKEN`: token de análise gerado no SonarQube Cloud.
+
+No SonarQube Cloud não é necessário o secret `SONAR_HOST_URL`, usado apenas em servidores próprios.
+
+Em `sonar-project.properties`, `sonar.organization` e `sonar.projectKey` correspondem à organização e ao projeto criados no SonarQube Cloud:
+
+```properties
+sonar.organization=murilodalmolim
+sonar.projectKey=MuriloDalMolim_IC-PipelineQuality
+```
+
+A análise automática do SonarQube Cloud foi desativada (_Administration → Analysis Method_), para que a análise seja executada pelo pipeline.
 
 > O workflow realiza a análise no SonarQube, mas não espera o resultado do Quality Gate. Isso permite apresentar a análise primeiro e adicionar o bloqueio pelo Quality Gate como evolução posterior da aula.
 
@@ -87,3 +101,21 @@ SonarQube
    ↓
 Build
 ```
+
+## Evidências da análise de qualidade
+
+### Pipeline
+
+![Pipeline](docs/evidencias/pipeline.png)
+
+### Etapa do SonarQube no pipeline
+
+![Etapa SonarQube](docs/evidencias/sonar-step.png)
+
+### SonarQube
+
+![SonarQube](docs/evidencias/sonarqube.png)
+
+### Quality Gate
+
+![Quality Gate](docs/evidencias/quality-gate.png)
